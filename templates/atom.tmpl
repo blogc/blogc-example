@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">{{ SITE_TITLE }}</title>
+  <id>/atom/</id>
+  <updated>{{ DATE_FIRST_FORMATTED }}</updated>
+  <link href="{{ BASE_DOMAIN }}/" />
+  <link href="{{ BASE_DOMAIN }}/atom.xml" rel="self" />
+  <author>
+    <name>{{ AUTHOR }}</name>
+  </author>
+  <subtitle type="text">{{ SITE_TAGLINE }}</subtitle>
+  {% block listing %}
+  <entry>
+    <title type="text">{{ TITLE }}</title>
+    <id>{{ BASE_URL }}/{{ FILENAME }}/</id>
+    <updated>{{ DATE_FORMATTED }}</updated>
+    <published>{{ DATE_FORMATTED }}</published>
+    <link href="{{ BASE_DOMAIN }}/post/{{ FILENAME }}/" />
+    <author>
+      <name>{{ AUTHOR }}</name>
+    </author>
+    <content type="html"><![CDATA[{{ CONTENT }}]]></content>
+  </entry>
+  {% endblock %}
+</feed>

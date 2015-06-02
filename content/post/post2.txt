@@ -1,0 +1,18 @@
+TITLE: Post 2
+DATE: 2015-04-01 12:00:00
+TAGS: tag1, tag2
+-------------------------
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nisl augue,
+laoreet non nibh pretium, convallis ultrices lacus. Donec interdum sem
+convallis urna semper, sit amet rutrum mi gravida. Morbi condimentum a augue
+eget tristique. Fusce vehicula est dapibus elit fringilla, eu malesuada quam
+blandit. Cras at luctus tortor. Ut accumsan at diam vitae ornare. Quisque
+luctus sem at mattis mollis. Morbi consectetur a arcu quis condimentum.
+Quisque dapibus leo at sem feugiat, ut sagittis ipsum accumsan.
+
+Praesent fringilla porttitor erat nec aliquam. Integer porta malesuada ligula
+id pretium. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+posuere cubilia Curae; Etiam nec dapibus urna. Sed et mi volutpat, pharetra
+lorem nec, varius dolor. Vestibulum a velit in arcu tincidunt luctus. Cras
+sodales dui eu risus auctor fringilla sed sed libero. Nam fermentum tincidunt
+ex non dapibus.
