@@ -1,6 +1,7 @@
 # Content
 
-AUTHOR = "Author"
+AUTHOR_NAME = "Author"
+AUTHOR_EMAIL = "author@example.org"
 SITE_TITLE = "Site Title"
 SITE_TAGLINE = "Site Tagline"
 
@@ -33,7 +34,8 @@ DATE_FORMAT = "%Y/%m/%d %H:%M:%S GMT"
 DATE_FORMAT_ATOM = "%Y-%m-%dT%H:%M:%SZ"
 
 BLOGC_COMMAND = $(BLOGC) \
-	-D AUTHOR=$(AUTHOR) \
+	-D AUTHOR_NAME=$(AUTHOR_NAME) \
+	-D AUTHOR_EMAIL=$(AUTHOR_EMAIL) \
 	-D SITE_TITLE=$(SITE_TITLE) \
 	-D SITE_TAGLINE=$(SITE_TAGLINE) \
 	-D BASE_DOMAIN=$(BASE_DOMAIN) \
@@ -59,7 +61,7 @@ all: \
 	$(addprefix $(OUTPUT_DIR)/page/, $(addsuffix /index.html, \
 		$(shell for i in {1..$(LAST_PAGE)}; do echo $$i; done)))
 
-$(OUTPUT_DIR)/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/main.tmpl
+$(OUTPUT_DIR)/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D FILTER_PAGE=1 \
@@ -69,7 +71,7 @@ $(OUTPUT_DIR)/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))
 		-t templates/main.tmpl \
 		$(addprefix content/post/, $(addsuffix .txt, $(POSTS)))
 
-$(OUTPUT_DIR)/page/%/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/main.tmpl
+$(OUTPUT_DIR)/page/%/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D FILTER_PAGE=$(shell echo $@ | sed -e 's,^$(OUTPUT_DIR)/page/,,' -e 's,/index\.html$$,,')\
@@ -79,7 +81,7 @@ $(OUTPUT_DIR)/page/%/index.html: $(addprefix content/post/, $(addsuffix .txt, $(
 		-t templates/main.tmpl \
 		$(addprefix content/post/, $(addsuffix .txt, $(POSTS)))
 
-$(OUTPUT_DIR)/atom.xml: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/atom.tmpl
+$(OUTPUT_DIR)/atom.xml: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/atom.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT_ATOM) \
 		-D FILTER_PAGE=1 \
@@ -89,14 +91,14 @@ $(OUTPUT_DIR)/atom.xml: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) 
 		-t templates/atom.tmpl \
 		$(addprefix content/post/, $(addsuffix .txt, $(POSTS)))
 
-$(OUTPUT_DIR)/%/index.html: content/%.txt templates/main.tmpl
+$(OUTPUT_DIR)/%/index.html: content/%.txt templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-o $@ \
 		-t templates/main.tmpl \
 		$<
 
-$(OUTPUT_DIR)/assets/%: assets/%
+$(OUTPUT_DIR)/assets/%: assets/% Makefile
 	$(INSTALL) -d -m 0755 $(dir $@) && \
 		$(INSTALL) -m 0644 $< $@
 

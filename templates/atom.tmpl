@@ -6,7 +6,8 @@
   <link href="{{ BASE_DOMAIN }}/" />
   <link href="{{ BASE_DOMAIN }}/atom.xml" rel="self" />
   <author>
-    <name>{{ AUTHOR }}</name>
+    <name>{{ AUTHOR_NAME }}</name>
+    <email>{{ AUTHOR_EMAIL }}</email>
   </author>
   <subtitle type="text">{{ SITE_TAGLINE }}</subtitle>
   {% block listing %}
@@ -17,7 +18,8 @@
     <published>{{ DATE_FORMATTED }}</published>
     <link href="{{ BASE_DOMAIN }}/post/{{ FILENAME }}/" />
     <author>
-      <name>{{ AUTHOR }}</name>
+      <name>{{ AUTHOR_NAME }}</name>
+      <email>{{ AUTHOR_EMAIL }}</email>
     </author>
     <content type="html"><![CDATA[{{ CONTENT }}]]></content>
   </entry>
