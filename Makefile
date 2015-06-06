@@ -105,7 +105,7 @@ $(OUTPUT_DIR)/%/index.html: content/%.txt templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D MENU=$(MENU) \
-		$(shell test $(IS_POST) -eq 1 && echo -D IS_POST=1) \
+		$(shell test "$(IS_POST)" -eq 1 && echo -D IS_POST=1) \
 		-o $@ \
 		-t templates/main.tmpl \
 		$<
