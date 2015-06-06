@@ -4,6 +4,7 @@ AUTHOR_NAME = "Author"
 AUTHOR_EMAIL = "author@example.org"
 SITE_TITLE = "Site Title"
 SITE_TAGLINE = "Site Tagline"
+LOCALE = "en_US.utf-8"
 
 POSTS_PER_PAGE = 10
 POSTS_PER_PAGE_ATOM = 10
@@ -30,16 +31,18 @@ OUTPUT_DIR ?= _build
 BASE_DOMAIN ?= http://example.org
 BASE_URL ?=
 
-DATE_FORMAT = "%Y/%m/%d %H:%M:%S GMT"
+DATE_FORMAT = "%b %d, %Y, %I:%M %p GMT"
 DATE_FORMAT_ATOM = "%Y-%m-%dT%H:%M:%SZ"
 
-BLOGC_COMMAND = $(BLOGC) \
-	-D AUTHOR_NAME=$(AUTHOR_NAME) \
-	-D AUTHOR_EMAIL=$(AUTHOR_EMAIL) \
-	-D SITE_TITLE=$(SITE_TITLE) \
-	-D SITE_TAGLINE=$(SITE_TAGLINE) \
-	-D BASE_DOMAIN=$(BASE_DOMAIN) \
-	-D BASE_URL=$(BASE_URL) \
+BLOGC_COMMAND = \
+	LC_ALL=$(LOCALE) \
+	$(BLOGC) \
+		-D AUTHOR_NAME=$(AUTHOR_NAME) \
+		-D AUTHOR_EMAIL=$(AUTHOR_EMAIL) \
+		-D SITE_TITLE=$(SITE_TITLE) \
+		-D SITE_TAGLINE=$(SITE_TAGLINE) \
+		-D BASE_DOMAIN=$(BASE_DOMAIN) \
+		-D BASE_URL=$(BASE_URL) \
 	$(NULL)
 
 
@@ -95,11 +98,14 @@ $(OUTPUT_DIR)/atom.xml: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) 
 
 $(OUTPUT_DIR)/about/index.html: MENU = about
 
-$(OUTPUT_DIR)/%/index.html: MENU = blog
+$(OUTPUT_DIR)/post/%/index.html: MENU = blog
+$(OUTPUT_DIR)/post/%/index.html: IS_POST = 1
+
 $(OUTPUT_DIR)/%/index.html: content/%.txt templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D MENU=$(MENU) \
+		$(shell test $(IS_POST) -eq 1 && echo -D IS_POST=1) \
 		-o $@ \
 		-t templates/main.tmpl \
 		$<

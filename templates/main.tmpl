@@ -43,9 +43,11 @@
           <article>
             <h3><a href="{{ BASE_URL }}/post/{{ FILENAME }}/">{{ TITLE }}</a></h3>
             {{ CONTENT }}
-            <p class="post-meta">
-              Published by <a href="mailto:{{ AUTHOR_EMAIL }}">{{ AUTHOR_NAME }}</a>{% ifdef DATE_FORMATTED %} at {{ DATE_FORMATTED }}{% endif %}
-            </p>
+            <div class="metadata well well-sm">
+              Author: <a href="mailto:{{ AUTHOR_EMAIL }}">{{ AUTHOR_NAME }}</a><br />
+              {% ifdef DATE_FORMATTED %}Published on: {{ DATE_FORMATTED }}<br />{% endif %}
+              <a href="{{ BASE_URL }}/post/{{ FILENAME }}/">Permalink</a>
+            </div>
           </article>
           {% endblock %}
           {% block listing_once %}
@@ -66,9 +68,13 @@
           <article>
             <h3>{{ TITLE }}</h3>
             {{ CONTENT }}
-            <p class="post-meta">
-              Published by <a href="mailto:{{ AUTHOR_EMAIL }}">{{ AUTHOR_NAME }}</a>{% ifdef DATE_FORMATTED %} at {{ DATE_FORMATTED }}{% endif %}
-            </p>
+            {% ifdef IS_POST %}
+            <div class="metadata well well-sm">
+              Author: <a href="mailto:{{ AUTHOR_EMAIL }}">{{ AUTHOR_NAME }}</a><br />
+              {% ifdef DATE_FORMATTED %}Published on: {{ DATE_FORMATTED }}<br />{% endif %}
+              <a href="{{ BASE_URL }}/post/{{ FILENAME }}/">Permalink</a>
+            </div>
+            {% endif %}
           </article>
           {% endblock %}
         </div>
