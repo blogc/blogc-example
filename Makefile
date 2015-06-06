@@ -66,6 +66,7 @@ $(OUTPUT_DIR)/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D FILTER_PAGE=1 \
 		-D FILTER_PER_PAGE=$(POSTS_PER_PAGE) \
+		-D MENU=blog \
 		-l \
 		-o $@ \
 		-t templates/main.tmpl \
@@ -76,6 +77,7 @@ $(OUTPUT_DIR)/page/%/index.html: $(addprefix content/post/, $(addsuffix .txt, $(
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D FILTER_PAGE=$(shell echo $@ | sed -e 's,^$(OUTPUT_DIR)/page/,,' -e 's,/index\.html$$,,')\
 		-D FILTER_PER_PAGE=$(POSTS_PER_PAGE) \
+		-D MENU=blog \
 		-l \
 		-o $@ \
 		-t templates/main.tmpl \
@@ -91,9 +93,13 @@ $(OUTPUT_DIR)/atom.xml: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) 
 		-t templates/atom.tmpl \
 		$(addprefix content/post/, $(addsuffix .txt, $(POSTS)))
 
+$(OUTPUT_DIR)/about/index.html: MENU = about
+
+$(OUTPUT_DIR)/%/index.html: MENU = blog
 $(OUTPUT_DIR)/%/index.html: content/%.txt templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
+		-D MENU=$(MENU) \
 		-o $@ \
 		-t templates/main.tmpl \
 		$<
@@ -104,3 +110,5 @@ $(OUTPUT_DIR)/assets/%: assets/% Makefile
 
 clean:
 	rm -rf "$(OUTPUT_DIR)"
+
+.PHONY: all clean

@@ -30,8 +30,8 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{ BASE_URL }}/">Blog</a></li>
-            <li><a href="{{ BASE_URL }}/about/">About</a></li>
+            <li{% if MENU == "blog" %} class="active"{% endif %}><a href="{{ BASE_URL }}/">Blog</a></li>
+            <li{% if MENU == "about" %} class="active"{% endif %}><a href="{{ BASE_URL }}/about/">About</a></li>
           </ul>
         </div>
       </div>
