@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title type="text">{{ SITE_TITLE }}</title>
-  <id>/atom/</id>
+  <id>{{ BASE_URL }}/atom.xml</id>
   <updated>{{ DATE_FIRST_FORMATTED }}</updated>
-  <link href="{{ BASE_DOMAIN }}/" />
-  <link href="{{ BASE_DOMAIN }}/atom.xml" rel="self" />
+  <link href="{{ BASE_DOMAIN }}{{ BASE_URL }}/" />
+  <link href="{{ BASE_DOMAIN }}{{ BASE_URL }}/atom.xml" rel="self" />
   <author>
     <name>{{ AUTHOR_NAME }}</name>
     <email>{{ AUTHOR_EMAIL }}</email>
@@ -13,10 +13,10 @@
   {% block listing %}
   <entry>
     <title type="text">{{ TITLE }}</title>
-    <id>{{ BASE_URL }}/{{ FILENAME }}/</id>
+    <id>{{ BASE_URL }}/post/{{ FILENAME }}/</id>
     <updated>{{ DATE_FORMATTED }}</updated>
     <published>{{ DATE_FORMATTED }}</published>
-    <link href="{{ BASE_DOMAIN }}/post/{{ FILENAME }}/" />
+    <link href="{{ BASE_DOMAIN }}{{ BASE_URL }}/post/{{ FILENAME }}/" />
     <author>
       <name>{{ AUTHOR_NAME }}</name>
       <email>{{ AUTHOR_EMAIL }}</email>

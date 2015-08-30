@@ -64,7 +64,7 @@ all: \
 	$(addprefix $(OUTPUT_DIR)/page/, $(addsuffix /index.html, \
 		$(shell for i in {1..$(LAST_PAGE)}; do echo $$i; done)))
 
-$(OUTPUT_DIR)/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/main.tmpl
+$(OUTPUT_DIR)/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D FILTER_PAGE=1 \
@@ -75,7 +75,7 @@ $(OUTPUT_DIR)/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))
 		-t templates/main.tmpl \
 		$(addprefix content/post/, $(addsuffix .txt, $(POSTS)))
 
-$(OUTPUT_DIR)/page/%/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/main.tmpl
+$(OUTPUT_DIR)/page/%/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D FILTER_PAGE=$(shell echo $@ | sed -e 's,^$(OUTPUT_DIR)/page/,,' -e 's,/index\.html$$,,')\
@@ -86,7 +86,7 @@ $(OUTPUT_DIR)/page/%/index.html: $(addprefix content/post/, $(addsuffix .txt, $(
 		-t templates/main.tmpl \
 		$(addprefix content/post/, $(addsuffix .txt, $(POSTS)))
 
-$(OUTPUT_DIR)/atom.xml: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/atom.tmpl
+$(OUTPUT_DIR)/atom.xml: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/atom.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT_ATOM) \
 		-D FILTER_PAGE=1 \
@@ -101,7 +101,7 @@ $(OUTPUT_DIR)/about/index.html: MENU = about
 $(OUTPUT_DIR)/post/%/index.html: MENU = blog
 $(OUTPUT_DIR)/post/%/index.html: IS_POST = 1
 
-$(OUTPUT_DIR)/%/index.html: content/%.txt templates/main.tmpl
+$(OUTPUT_DIR)/%/index.html: content/%.txt templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D MENU=$(MENU) \
@@ -110,7 +110,7 @@ $(OUTPUT_DIR)/%/index.html: content/%.txt templates/main.tmpl
 		-t templates/main.tmpl \
 		$<
 
-$(OUTPUT_DIR)/assets/%: assets/%
+$(OUTPUT_DIR)/assets/%: assets/% Makefile
 	$(INSTALL) -d -m 0755 $(dir $@) && \
 		$(INSTALL) -m 0644 $< $@
 
