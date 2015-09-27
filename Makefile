@@ -26,7 +26,8 @@ ASSETS = \
 # Arguments
 
 BLOGC ?= $(shell which blogc)
-INSTALL ?= $(shell which install)
+MKDIR ?= $(shell which mkdir)
+CP ?= $(shell which cp)
 OUTPUT_DIR ?= _build
 BASE_DOMAIN ?= http://example.org
 BASE_URL ?=
@@ -111,8 +112,8 @@ $(OUTPUT_DIR)/%/index.html: content/%.txt templates/main.tmpl Makefile
 		$<
 
 $(OUTPUT_DIR)/assets/%: assets/% Makefile
-	$(INSTALL) -d -m 0755 $(dir $@) && \
-		$(INSTALL) -m 0644 $< $@
+	$(MKDIR) -p $(dir $@) && \
+		$(CP) $< $@
 
 clean:
 	rm -rf "$(OUTPUT_DIR)"
