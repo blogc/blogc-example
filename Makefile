@@ -63,7 +63,7 @@ all: \
 	$(addprefix $(OUTPUT_DIR)/post/, $(addsuffix /index.html, $(POSTS))) \
 	$(addprefix $(OUTPUT_DIR)/, $(addsuffix /index.html, $(PAGES))) \
 	$(addprefix $(OUTPUT_DIR)/page/, $(addsuffix /index.html, \
-		$(shell for i in {1..$(LAST_PAGE)}; do echo $$i; done)))
+		$(shell for i in $(shell seq 1 $(LAST_PAGE)); do echo $$i; done)))
 
 $(OUTPUT_DIR)/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
