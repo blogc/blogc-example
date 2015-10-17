@@ -26,8 +26,13 @@ ASSETS = \
 # Arguments
 
 BLOGC ?= $(shell which blogc)
+BLOGC_RUNSERVER ?= $(shell which blogc-runserver 2> /dev/null)
 MKDIR ?= $(shell which mkdir)
 CP ?= $(shell which cp)
+
+BLOGC_RUNSERVER_HOST ?= 127.0.0.1
+BLOGC_RUNSERVER_PORT ?= 8080
+
 OUTPUT_DIR ?= _build
 BASE_DOMAIN ?= http://example.org
 BASE_URL ?=
@@ -114,6 +119,15 @@ $(OUTPUT_DIR)/%/index.html: content/%.txt templates/main.tmpl Makefile
 $(OUTPUT_DIR)/assets/%: assets/% Makefile
 	$(MKDIR) -p $(dir $@) && \
 		$(CP) $< $@
+
+ifneq ($(BLOGC_RUNSERVER),)
+.PHONY: serve
+serve: all
+	$(BLOGC_RUNSERVER) \
+		-t $(BLOGC_RUNSERVER_HOST) \
+		-p $(BLOGC_RUNSERVER_PORT) \
+		$(OUTPUT_DIR)
+endif
 
 clean:
 	rm -rf "$(OUTPUT_DIR)"
