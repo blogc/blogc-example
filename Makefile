@@ -102,6 +102,8 @@ $(OUTPUT_DIR)/atom.xml: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) 
 		-t templates/atom.tmpl \
 		$(addprefix content/post/, $(addsuffix .txt, $(POSTS)))
 
+IS_POST = 0
+
 $(OUTPUT_DIR)/about/index.html: MENU = about
 
 $(OUTPUT_DIR)/post/%/index.html: MENU = blog
