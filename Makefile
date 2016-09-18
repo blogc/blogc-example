@@ -27,6 +27,7 @@ ASSETS = \
 
 BLOGC ?= $(shell which blogc)
 BLOGC_RUNSERVER ?= $(shell which blogc-runserver 2> /dev/null)
+ENTR ?= $(shell which entr 2> /dev/null)
 MKDIR ?= $(shell which mkdir)
 CP ?= $(shell which cp)
 
@@ -54,12 +55,24 @@ BLOGC_COMMAND = \
 
 # Rules
 
+POSTS_LIST = $(addprefix content/post/, $(addsuffix .txt, $(POSTS)))
+PAGES_LIST = $(addprefix content/, $(addsuffix .txt, $(PAGES)))
+
 LAST_PAGE = $(shell $(BLOGC_COMMAND) \
 	-D FILTER_PAGE=1 \
 	-D FILTER_PER_PAGE=$(POSTS_PER_PAGE) \
 	-p LAST_PAGE \
 	-l \
-	$(addprefix content/post/, $(addsuffix .txt, $(POSTS))))
+	$(POSTS_LIST))
+
+ALL_LIST = \
+	$(POSTS_LIST) \
+	$(PAGES_LIST) \
+	$(ASSETS) \
+	templates/main.tmpl \
+	templates/atom.tmpl \
+	Makefile \
+	$(NULL)
 
 all: \
 	$(OUTPUT_DIR)/index.html \
@@ -70,7 +83,7 @@ all: \
 	$(addprefix $(OUTPUT_DIR)/page/, $(addsuffix /index.html, \
 		$(shell for i in $(shell seq 1 $(LAST_PAGE)); do echo $$i; done)))
 
-$(OUTPUT_DIR)/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/main.tmpl Makefile
+$(OUTPUT_DIR)/index.html: $(POSTS_LIST) templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D FILTER_PAGE=1 \
@@ -79,9 +92,9 @@ $(OUTPUT_DIR)/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))
 		-l \
 		-o $@ \
 		-t templates/main.tmpl \
-		$(addprefix content/post/, $(addsuffix .txt, $(POSTS)))
+		$(POSTS_LIST)
 
-$(OUTPUT_DIR)/page/%/index.html: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/main.tmpl Makefile
+$(OUTPUT_DIR)/page/%/index.html: $(POSTS_LIST) templates/main.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D FILTER_PAGE=$(shell echo $@ | sed -e 's,^$(OUTPUT_DIR)/page/,,' -e 's,/index\.html$$,,')\
@@ -90,9 +103,9 @@ $(OUTPUT_DIR)/page/%/index.html: $(addprefix content/post/, $(addsuffix .txt, $(
 		-l \
 		-o $@ \
 		-t templates/main.tmpl \
-		$(addprefix content/post/, $(addsuffix .txt, $(POSTS)))
+		$(POSTS_LIST)
 
-$(OUTPUT_DIR)/atom.xml: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) templates/atom.tmpl Makefile
+$(OUTPUT_DIR)/atom.xml: $(POSTS_LIST) templates/atom.tmpl Makefile
 	$(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT_ATOM) \
 		-D FILTER_PAGE=1 \
@@ -100,7 +113,7 @@ $(OUTPUT_DIR)/atom.xml: $(addprefix content/post/, $(addsuffix .txt, $(POSTS))) 
 		-l \
 		-o $@ \
 		-t templates/atom.tmpl \
-		$(addprefix content/post/, $(addsuffix .txt, $(POSTS)))
+		$(POSTS_LIST)
 
 IS_POST = 0
 
@@ -129,6 +142,12 @@ serve: all
 		-t $(BLOGC_RUNSERVER_HOST) \
 		-p $(BLOGC_RUNSERVER_PORT) \
 		$(OUTPUT_DIR)
+endif
+
+ifneq ($(ENTR),)
+.PHONY: reload
+reload:
+	for i in $(ALL_LIST); do echo $$i; done | $(ENTR) -r $(MAKE) serve
 endif
 
 clean:
