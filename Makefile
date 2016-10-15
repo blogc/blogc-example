@@ -84,36 +84,36 @@ all: \
 		$(shell for i in $(shell seq 1 $(LAST_PAGE)); do echo $$i; done)))
 
 $(OUTPUT_DIR)/index.html: $(POSTS_LIST) templates/main.tmpl Makefile
-	$(BLOGC_COMMAND) \
+	for i in $(POSTS_LIST); do echo $$i; done | $(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D FILTER_PAGE=1 \
 		-D FILTER_PER_PAGE=$(POSTS_PER_PAGE) \
 		-D MENU=blog \
+		-i \
 		-l \
 		-o $@ \
-		-t templates/main.tmpl \
-		$(POSTS_LIST)
+		-t templates/main.tmpl
 
 $(OUTPUT_DIR)/page/%/index.html: $(POSTS_LIST) templates/main.tmpl Makefile
-	$(BLOGC_COMMAND) \
+	for i in $(POSTS_LIST); do echo $$i; done | $(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT) \
 		-D FILTER_PAGE=$(shell echo $@ | sed -e 's,^$(OUTPUT_DIR)/page/,,' -e 's,/index\.html$$,,')\
 		-D FILTER_PER_PAGE=$(POSTS_PER_PAGE) \
 		-D MENU=blog \
+		-i \
 		-l \
 		-o $@ \
-		-t templates/main.tmpl \
-		$(POSTS_LIST)
+		-t templates/main.tmpl
 
 $(OUTPUT_DIR)/atom.xml: $(POSTS_LIST) templates/atom.tmpl Makefile
-	$(BLOGC_COMMAND) \
+	for i in $(POSTS_LIST); do echo $$i; done | $(BLOGC_COMMAND) \
 		-D DATE_FORMAT=$(DATE_FORMAT_ATOM) \
 		-D FILTER_PAGE=1 \
 		-D FILTER_PER_PAGE=$(POSTS_PER_PAGE_ATOM) \
+		-i \
 		-l \
 		-o $@ \
-		-t templates/atom.tmpl \
-		$(POSTS_LIST)
+		-t templates/atom.tmpl
 
 IS_POST = 0
 
