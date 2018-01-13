@@ -1,0 +1,20 @@
+[global]
+AUTHOR_NAME = Author
+AUTHOR_EMAIL = author@example.org
+SITE_TITLE = Site Title
+SITE_TAGLINE = Site Tagline
+BASE_DOMAIN = http://example.org
+
+[settings]
+locale = en_US.utf-8
+date_format = %b %d, %Y, %I:%M %p GMT
+
+[posts]
+post1
+post2
+
+[pages]
+about
+
+[copy]
+assets/custom.css
