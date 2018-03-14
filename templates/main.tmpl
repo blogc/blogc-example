@@ -22,7 +22,7 @@
             <li class="nav-item{% if MAKE_TYPE == "post" %} active{% endif %}">
               <a class="nav-link" href="{{ BASE_URL }}/">Blog</a>
             </li>
-            <li class="nav-item{% if MAKE_TYPE == "page" %}{% if FILENAME == "about" %} active{% endif %}{% endif %}">
+            <li class="nav-item{% if MAKE_SLUG == "about" %} active{% endif %}">
               <a class="nav-link" href="{{ BASE_URL }}/about/">About</a>
             </li>
           </ul>
