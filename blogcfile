@@ -17,4 +17,7 @@ post2
 about
 
 [copy]
+assets/bootstrap.bundle.min.js
+assets/bootstrap.min.css
+assets/jquery.slim.min.js
 assets/custom.css

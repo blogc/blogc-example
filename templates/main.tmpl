@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ SITE_TAGLINE }}">
     <title>{{ SITE_TITLE }}{% block entry %}{% ifdef TITLE %} - {{ TITLE }}{% endif %}{% endblock %}{% block listing_once %} - {{ SITE_TAGLINE }}{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@4.0.0/dist/flatly/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ BASE_URL }}/assets/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="{{ BASE_URL }}/assets/custom.css" rel="stylesheet" type="text/css">
     <link href="{{ BASE_URL }}/atom.xml" rel="alternate" type="application/atom+xml" title="{{ SITE_TITLE }}" />
   </head>
@@ -85,6 +85,7 @@
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.2.1/dist/jquery.slim.min.js,npm/bootstrap@4.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ BASE_URL }}/assets/jquery.slim.min.js"></script>
+    <script src="{{ BASE_URL }}/assets/bootstrap.bundle.min.js"></script>
   </body>
 </html>
