@@ -19,6 +19,9 @@ PAGES = \
 	$(NULL)
 
 ASSETS = \
+	assets/bootstrap.bundle.min.js \
+	assets/bootstrap.min.css \
+	assets/jquery.slim.min.js \
 	assets/custom.css \
 	$(NULL)
 
